@@ -6,8 +6,8 @@ int* grow(int size) {
 	int *a = NULL;
 	static volatile int b[1000000];
 	for (int i = 0; i < size; ++i)
-		//da_push(&a, i);
-		b[i] = i;
+		da_push(&a, i);
+		//b[i] = i;
 	return a;
 }
 

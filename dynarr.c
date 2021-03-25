@@ -86,7 +86,7 @@ int da_resize_(void *pdata, size_t size, size_t elemsize) {
 		hdr->size = size;
 		return 0;
 	}
-	size_t caps = (3 * hdr->caps) / 2 + 1;
+	size_t caps = (9 * hdr->caps) / 8 + 1;
 	if (caps < size) caps = size;
 	struct da_header *newhdr = da_alloc_header(size, caps, elemsize);
 	if (!newhdr)
