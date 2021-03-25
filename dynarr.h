@@ -14,8 +14,8 @@
 #define da_push(ap, elem) da_push_((ap), (elem))
 #define da_push_(ap, elem)             \
 do {                                   \
-  da_resize(ap, 1 + da_size(*ap)); \
-  (*ap)[da_size(*ap) - 1] = elem;    \
+  da_resize(ap, 1 + da_size(*ap));     \
+  (*ap)[da_size(*ap) - 1] = elem;      \
 } while (0)
 
 // todo: add da_resize_safe(a,size,stmt) where stmt is excuted on failure
@@ -25,6 +25,7 @@ do {                                   \
 } while (0)
 
 size_t da_size(void *data);
+size_t da_caps(void *data);
 int da_resize_(void *pdata, size_t size, size_t elemsize);
 void da_destroy(void *pdata);
 
