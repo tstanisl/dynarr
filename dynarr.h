@@ -17,7 +17,7 @@
  */
 
 #define da_push(ap, elem) \
-  (da_grow((ap), 1) == 0 ? ((*(ap))[da_size(*(ap)) - 1] = (elem), 0) : -1)
+  (da_grow((ap), 1) == 0 ? ((*(ap))[da_size(ap) - 1] = (elem), 0) : -1)
 
 #define da_resize(a,size)  da_resize_((a), (size), sizeof **(a))
 #define da_reserve(a,size) da_reserve_((a), (size), sizeof **(a))
@@ -52,12 +52,12 @@ static inline void *da_init(void) {
   return DA_INIT;
 }
 
-static inline size_t da_size(void *data) {
-	return da_header_(data)->size;
+static inline size_t da_size(void *pdata) {
+	return da_header_(*(void**)pdata)->size;
 }
 
-static inline size_t da_caps(void *data) {
-	return da_header_(data)->caps;
+static inline size_t da_caps(void *pdata) {
+	return da_header_(*(void**)pdata)->caps;
 }
 
 static inline void da_free(void *pdata) {
