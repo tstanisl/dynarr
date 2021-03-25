@@ -6,7 +6,7 @@
 
 /* typical usage:
  *
- * double *arr = da_init();
+ * double *arr = DA_INIT;
  * da_push(&arr, 1);
  * da_push(&arr, 2);
  * da_push(&arr, 3);
@@ -24,10 +24,8 @@
 #define da_grow(a,diff)    da_grow_((a), (diff), sizeof *(a))
 
 // todo:
-//#define da_grow(a, cnt)   da_grow_((a), (cnt), sizeof *(a))
 //#define da_create(TYPE,SIZE,VAL) da_create(&(type){VAL}
 //#define da_pop(arrp)
-//#define da_reserve()
 //#define da_put()
 //#define da_get()
 
@@ -46,9 +44,12 @@ static inline struct da_header_ *da_header_(char* data) {
 	return hdr;
 }
 
+static struct da_header_ da_dummy_;
+
+#define DA_INIT ((void*)da_dummy_.data)
+
 static inline void *da_init(void) {
-  static struct da_header_ dummy;
-  return dummy.data;
+  return DA_INIT;
 }
 
 static inline size_t da_size(void *data) {

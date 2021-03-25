@@ -14,7 +14,7 @@ void foo(float **a) {
 }
 
 int main() {
-	float *arr = da_init();
+	float *arr = DA_INIT;
 	foo(&arr);
 	da_push(&arr, 1);
 	da_push(&arr, 2);
