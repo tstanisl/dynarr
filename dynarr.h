@@ -2,6 +2,7 @@
 #define DYNARR_H
 
 #include <stdlib.h>
+
 /* typical usage:
  * double *arr = NULL;
  * darr_push(&arr, 1);
@@ -20,8 +21,11 @@
 
 size_t da_size(void *data);
 size_t da_caps(void *data);
-int da_resize_(void *pdata, size_t size, size_t elemsize);
+//todo: rename to da_free
 void da_destroy(void *pdata);
+
+// private stuff, do not use directly
+int da_resize_(void *pdata, size_t size, size_t elemsize);
 
 // wip
 //#define da_grow(a, cnt)   da_grow_((a), (cnt), sizeof *(a))

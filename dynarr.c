@@ -20,13 +20,16 @@ struct da_header {
 	_Alignas(DYNARR__ALIGN / 2) char data[];
 };
 
+//#define DBG printf
+#define DBG
+
 _Static_assert(sizeof(struct da_header) <= DYNARR__ALIGN / 2, "Invalid size of DynArr header");
 
 static struct da_header* da_header(char* data) {
 	void *ptr = data - sizeof(struct da_header);
 	assert((uintptr_t)ptr % DYNARR__ALIGN == 0 && "bad alignment, not DynArr");
 	struct da_header *hdr = ptr;
-	printf("header=%p\n", (void*)hdr);
+	DBG("header=%p\n", (void*)hdr);
 #ifdef DYNARR__MAGIC
 	assert(memcmp(hdr->magic, DYNARR__MAGIC, sizeof(hdr->magic)) == 0 && "invalid magic, not DynArr");
 #endif
@@ -70,7 +73,7 @@ void da_destroy(void *pdata) {
 
 int da_resize_(void *pdata, size_t size, size_t elemsize) {
 	void **data = (void**)pdata;
-	printf("*pdata=%p size=%zi elemsize=%zi\n", *data, size, elemsize);
+	DBG("*pdata=%p size=%zi elemsize=%zi\n", *data, size, elemsize);
 	if (!*data) {
 		struct da_header *hdr = da_alloc_header(size, size, elemsize);
 		if (!hdr)
@@ -83,13 +86,13 @@ int da_resize_(void *pdata, size_t size, size_t elemsize) {
 		hdr->size = size;
 		return 0;
 	}
-	size_t caps = (5 * hdr->caps) / 4 + 1;
+	size_t caps = (3 * hdr->caps) / 2 + 1;
 	if (caps < size) caps = size;
 	struct da_header *newhdr = da_alloc_header(size, caps, elemsize);
 	if (!newhdr)
 		return -1;
 	memcpy(newhdr->data, hdr->data, hdr->size * elemsize);
-	printf("release %p\n", (void*)hdr);
+	DBG("release %p\n", (void*)hdr);
 	free(hdr);
 	*data = newhdr->data;
 	return 0;
