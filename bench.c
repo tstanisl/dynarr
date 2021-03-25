@@ -20,7 +20,7 @@ double bench(int reps) {
 		clock_gettime(CLOCK_MONOTONIC, &tic);
 		int *p = grow(ireps);
 		clock_gettime(CLOCK_MONOTONIC, &toc);
-		da_destroy(&p);
+		da_free(&p);
 		double elapsed = (toc.tv_sec - tic.tv_sec) + 1e-9 * (toc.tv_nsec - tic.tv_nsec);
 		if (i > 0) total += elapsed;
 	}

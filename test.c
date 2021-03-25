@@ -1,4 +1,4 @@
-#include <dynarr.h>
+#include "dynarr.h"
 #include <stdio.h>
 
 void foo(float **a) {
@@ -14,7 +14,7 @@ void foo(float **a) {
 }
 
 int main() {
-	float *arr = NULL;
+	float *arr = da_init();
 	foo(&arr);
 	da_push(&arr, 1);
 	da_push(&arr, 2);
@@ -34,7 +34,7 @@ int main() {
 		printf("%f\n", arr2d[i][j]);
 	da_destroy(&arr2d);
 #endif
-	da_destroy(&arr);
+	da_free(&arr);
 	//float a[4], *ap = a;
 	//da_push(&ap, 4);
 	return 0;
