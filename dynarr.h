@@ -11,18 +11,12 @@
  *    printf("%ld ", arr[i]);
  */
 
-#define da_push(ap, elem) da_push_((ap), (elem))
-#define da_push_(ap, elem)             \
-do {                                   \
-  da_resize(ap, 1 + da_size(*ap));     \
-  (*ap)[da_size(*ap) - 1] = elem;      \
-} while (0)
+#define da_push(ap, elem)                           \
+  (da_resize((ap), 1 + da_size(*(ap))) == 0 ?       \
+   ((*(ap))[da_size(*(ap)) - 1] = (elem), 0) : -1)
 
 // todo: add da_resize_safe(a,size,stmt) where stmt is excuted on failure
-#define da_resize(a,size) do {                    \
-  if (da_resize_((a), (size), sizeof **(a)) != 0) \
-    abort();                                      \
-} while (0)
+#define da_resize(a,size) da_resize_((a), (size), sizeof **(a))
 
 size_t da_size(void *data);
 size_t da_caps(void *data);
