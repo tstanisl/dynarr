@@ -118,6 +118,26 @@ void test_reserve() {
 	PASS();
 }
 
+void test_grow() {
+	double *d = DA_INIT;
+	da_grow(&d, 1);
+	TEST(da_size(&d) == 1);
+	TEST(da_caps(&d) >= 1);
+
+	da_grow(&d, 2);
+	TEST(da_size(&d) == 3);
+	TEST(da_caps(&d) >= 3);
+
+	size_t caps = da_caps(&d);
+	da_grow(&d, -3);
+	TEST(da_size(&d) == 0);
+	TEST(da_caps(&d) >= 0);
+	TEST(da_caps(&d) <= caps);
+
+	da_free(&d);
+	PASS();
+}
+
 int main() {
 	test_init();
 	test_push();
@@ -125,6 +145,7 @@ int main() {
 	test_free();
 	test_resize();
 	test_reserve();
+	test_grow();
 	return 0;
 }
 
