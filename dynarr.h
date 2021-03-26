@@ -24,7 +24,10 @@ static inline struct da_header_ *da_header_(char* data) {
 static struct da_header_ da_dummy_;
 
 static inline struct da_header_ *da_realloc_(struct da_header_ *hdr, size_t caps, size_t elemsize) {
-	if (caps == 0) return &da_dummy_;
+	if (caps == 0) {
+		free(hdr);
+		return &da_dummy_;
+	}
 	size_t bytes = sizeof (struct da_header_) + caps * elemsize;
 	// round allocations to 64 bytes
 	bytes = (bytes + 63u) / 64u * 64u;

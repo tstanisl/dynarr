@@ -5,6 +5,7 @@
 int* grow(int size) {
 	int *a = da_init();
 	//static volatile int b[1000000];
+	//da_reserve(&a, size);
 	for (int i = 0; i < size; ++i)
 		da_push(&a, i);
 		//b[i] = i;
