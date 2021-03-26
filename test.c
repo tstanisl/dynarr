@@ -138,6 +138,23 @@ void test_grow() {
 	PASS();
 }
 
+void test_copy() {
+	double *d = DA_INIT;
+	for (size_t i = 0; i < 10; ++i)
+		da_push(&d, i);
+	double *d2 = DA_INIT;
+	da_copy(&d, &d2);
+	TEST(da_size(&d2) == 10);
+	TEST(da_caps(&d2) >= 10);
+	TEST(d2 != d);
+	for (size_t i = 0; i < 10; ++i)
+		TEST(d2[i] == d[i]);
+	da_free(&d);
+	da_free(&d2);
+
+	PASS();
+}
+
 int main() {
 	test_init();
 	test_push();
@@ -146,6 +163,7 @@ int main() {
 	test_resize();
 	test_reserve();
 	test_grow();
+	test_copy();
 	return 0;
 }
 

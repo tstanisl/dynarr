@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <string.h>
 
 /*
  *   PRIVATE STUFF
@@ -74,6 +75,16 @@ static inline int da_resize_(void *pdata, size_t size, size_t elemsize) {
 	return 0;
 }
 
+static inline int da_copy_(void *psrc, void *pdst, size_t elemsize) {
+	struct da_header_ *shdr = da_header_(*(void**)psrc);
+	struct da_header_ *dhdr = da_realloc_(&da_dummy_, shdr->size, elemsize);
+	if (!dhdr) return -1;
+	dhdr->size = shdr->size;
+	memcpy(dhdr->data, shdr->data, shdr->size * elemsize);
+	*(void**)pdst = dhdr->data;
+	return 0;
+}
+
 /*
  *   PUBLIC API
  */
@@ -119,6 +130,9 @@ static inline void da_free(void *pdata) {
 
 #define da_pop(ap) \
   (da_grow((ap), -1), (*(ap))[da_size(ap)])
+
+#define da_copy(src, dst) \
+  ((void)sizeof(*(src) == *(dst)), da_copy_(src, dst, sizeof **(src)))
 
 // todo:
 //#define da_create(TYPE,SIZE,VAL) da_create(&(type){VAL}

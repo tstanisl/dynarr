@@ -78,3 +78,9 @@ da_pop(&da);
 ```
 Returns the last value and shrinks the container.
 
+5. Copying
+```
+da_copy(&src, &dst);
+```
+Copies container `src` to `dst`. The capacity of new container is minimal. 
+Return 0 on success, -1 on failure.
