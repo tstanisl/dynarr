@@ -17,22 +17,24 @@ da_free(&arr);
 
 # API
 
-````
+1. Initialization.
+```
 DA_INIT
 ```
-
 a literal of `void*` type used to initialize all `DynArr` objects.
+
 
 ```
 da_init();
 ```
-
 A helper that returns `DA_INIT` value.
 
+3. Query size and capacity.
 ```
 da_size(&da);
 ```
 Returns a number of elements in `DynArr` container.
+
 
 ```
 da_caps(&da);
@@ -40,18 +42,21 @@ da_caps(&da);
 Returns a capacity of the container. Adding new elements will not cause reallocation
 until `da_caps()` objects are inserted.
 
+
+3. Bulk modifications.
 ```
 da_resize(&da, newsize);
 ```
-
 A macro, resizes the `DynArr` to desired size. Content of objects at `da[oldsize ... newsize-1]` is undefined.
 Return 0 on success, -1 on failure.
+
 
 ```
 da_reserve(&da, caps);
 ```
 A macro, reserves place for `caps` object but leaves size unchanged.
 Return 0 on success, -1 on failure.
+
 
 ```
 da_grow(&da, diff);
@@ -61,6 +66,7 @@ value of `-diff` must be lesser or equal to the current size.
 Return 0 on success, -1 on failure.
 Negative grows are guaranteed to succeed.
 
+4. Stack-like interface.
 ```
 da_push(&da, value);
 ```
