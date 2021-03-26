@@ -77,7 +77,8 @@ static inline int da_resize_(void *pdata, size_t size, size_t elemsize) {
 
 static inline int da_copy_(void *psrc, void *pdst, size_t elemsize) {
 	struct da_header_ *shdr = da_header_(*(void**)psrc);
-	struct da_header_ *dhdr = da_realloc_(&da_dummy_, shdr->size, elemsize);
+	struct da_header_ *dhdr = da_header_(*(void**)pdst);
+	dhdr = da_realloc_(dhdr, shdr->size, elemsize);
 	if (!dhdr) return -1;
 	dhdr->size = shdr->size;
 	memcpy(dhdr->data, shdr->data, shdr->size * elemsize);

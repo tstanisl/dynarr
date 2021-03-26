@@ -83,4 +83,5 @@ Returns the last value and shrinks the container.
 da_copy(&src, &dst);
 ```
 Copies container `src` to `dst`. The capacity of new container is minimal. 
+Both `src` and `dst` must be different `DynArr` containers. `dst` is freed.
 Return 0 on success, -1 on failure.
