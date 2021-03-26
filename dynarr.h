@@ -25,7 +25,10 @@ static struct da_header_ da_dummy_;
 
 static inline struct da_header_ *da_realloc_(struct da_header_ *hdr, size_t caps, size_t elemsize) {
 	if (caps == 0) {
-		free(hdr);
+		// silance the compiler about freeing `da_dummy_`
+		if (hdr->caps && hdr != &da_dummy_) {
+		  free(hdr);
+		}
 		return &da_dummy_;
 	}
 	size_t bytes = sizeof (struct da_header_) + caps * elemsize;
