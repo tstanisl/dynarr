@@ -1,6 +1,7 @@
 #ifndef DYNARR_H
 #define DYNARR_H
 
+#include <assert.h>
 #include <stddef.h>
 #include <stdlib.h>
 
@@ -25,7 +26,7 @@ static struct da_header_ da_dummy_;
 
 static inline struct da_header_ *da_realloc_(struct da_header_ *hdr, size_t caps, size_t elemsize) {
 	if (caps == 0) {
-		// silance the compiler about freeing `da_dummy_`
+		// silence the compiler about freeing `da_dummy_`
 		if (hdr->caps && hdr != &da_dummy_) {
 		  free(hdr);
 		}
@@ -51,7 +52,7 @@ static inline int da_reserve_(void *pdata, size_t caps, size_t elemsize) {
 	return 0;
 }
 
-static inline int da_grow_(void *pdata, size_t diff, size_t elemsize) {
+static inline int da_grow_(void *pdata, ptrdiff_t diff, size_t elemsize) {
 	struct da_header_ *hdr = da_header_(*(void**)pdata);
 	size_t newsize = hdr->size + diff;
 	if (newsize > hdr->caps) {
@@ -116,9 +117,11 @@ static inline void da_free(void *pdata) {
 #define da_push(ap, elem) \
   (da_grow((ap), 1) == 0 ? ((*(ap))[da_size(ap) - 1] = (elem), 0) : -1)
 
+#define da_pop(ap) \
+  (da_grow((ap), -1), (*(ap))[da_size(ap)])
+
 // todo:
 //#define da_create(TYPE,SIZE,VAL) da_create(&(type){VAL}
-//#define da_pop(arrp)
 //#define da_put()
 //#define da_get()
 
